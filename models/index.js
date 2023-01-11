@@ -42,13 +42,13 @@ const addContact = async (name, email, phone) => {
   return newContact;
 };
 
-const updateContact = async (id, name, email, phone) => {
+const updateContact = async (id, data) => {
   const contacts = await listContacts();
   const idx = contacts.findIndex((item) => item.id === id);
   if (idx === -1) {
     return null;
   }
-  contacts[idx] = { id, name, email, phone };
+  contacts[idx] = { id, ...data };
   await updateContacts(contacts);
   return contacts[idx];
 };

@@ -1,30 +1,18 @@
 const { NotFound } = require("http-errors");
 
-const { contactSchema } = require("../../schemas");
-
 const contactsOperations = require("../../models/index");
 
 const updateContact = async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body);
-    if (error) {
-      res.status(400).json({
-        status: "error",
-        code: 400,
-        message: `missing  field ${error.message}`,
-      });
-      return;
-    }
     const { id } = req.params;
-    const { name, email, phone } = req.body;
-    const contact = await contactsOperations.updateContact(
-      id,
-      name,
-      email,
-      phone
-    );
+    const { ...data } = req.body;
+    if (!data) {
+      next(new NotFound(`Missing fields`));
+    }
+
+    const contact = await contactsOperations.updateContact(id, data);
     if (!contact) {
-      throw new NotFound(`Product with id=${id} not found`);
+      next(new NotFound(`Product with id=${id} not found`));
     }
     res.json({
       status: "success",
