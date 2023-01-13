@@ -1,12 +1,12 @@
 const { NotFound } = require("http-errors");
 
-const contactsOperations = require("../../models/index");
+const { Contact } = require("../../models");
 
 const deleteContact = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const contactToDelete = await contactsOperations.removeContact(id);
+    const contactToDelete = await Contact.findByIdAndRemove(id);
     if (!contactToDelete) {
       throw new NotFound(`Contact with id=${id} not found`);
     }

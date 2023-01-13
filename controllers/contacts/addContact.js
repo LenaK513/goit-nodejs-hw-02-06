@@ -1,9 +1,9 @@
-const { contactSchema } = require("../../schemas");
-const contactsOperations = require("../../models/index");
+const { joiSchema } = require("../../models/contact");
+const { Contact } = require("../../models");
 
 const addContact = async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body);
+    const { error } = joiSchema.validate(req.body);
     if (error) {
       res.status(400).json({
         status: "error",
@@ -12,8 +12,8 @@ const addContact = async (req, res, next) => {
       });
       return;
     }
-    const { name, email, phone } = req.body;
-    const contact = await contactsOperations.addContact(name, email, phone);
+
+    const contact = await Contact.create(req.body);
 
     res.status(201).json({ status: "success", code: 201, data: contact });
   } catch (error) {

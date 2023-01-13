@@ -1,15 +1,19 @@
 const { NotFound } = require("http-errors");
 const { Contact } = require("../../models");
 
-const updateContact = async (req, res, next) => {
+const updateFavorite = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { ...data } = req.body;
-    if (!data) {
+    const { favorite } = req.body;
+    if (!favorite) {
       next(new NotFound(`Missing fields`));
     }
 
-    const contact = await Contact.findByIdAndUpdate(id, data, { new: true });
+    const contact = await Contact.findByIdAndUpdate(
+      id,
+      { favorite },
+      { new: true }
+    );
     if (!contact) {
       next(new NotFound(`Product with id=${id} not found`));
     }
@@ -25,4 +29,4 @@ const updateContact = async (req, res, next) => {
   }
 };
 
-module.exports = updateContact;
+module.exports = updateFavorite;
