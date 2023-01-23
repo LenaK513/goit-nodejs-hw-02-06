@@ -11,20 +11,18 @@ const login = async (req, res, next) => {
     const { error } = joiUserSchema.validate(req.body);
     if (error) {
       res.status(400).json({
-        status: "error",
-        code: 400,
-        message: "Помилка від Joi або іншої бібліотеки валідації",
+        message: `${error.message}`,
       });
     }
 
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      next(new Unauthorized(`Email ${email} is wrong`));
+      next(new Unauthorized("Email or password is wrong"));
     }
     const passwordCompare = bcrypt.compareSync(password, user.password);
     if (!passwordCompare) {
-      next(new Unauthorized(`Password ${password} is wrong`));
+      next(new Unauthorized("Email or password is wrong"));
     }
     const payload = {
       id: user._id,
@@ -32,8 +30,7 @@ const login = async (req, res, next) => {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
     await User.findByIdAndUpdate(user._id, { token });
 
-    res.json({
-      code: 200,
+    res.status(200).json({
       data: {
         token,
       },

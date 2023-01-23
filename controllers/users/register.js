@@ -9,9 +9,7 @@ const register = async (req, res, next) => {
     const { error } = joiUserSchema.validate(req.body);
     if (error) {
       res.status(400).json({
-        status: "error",
-        code: 400,
-        message: "Помилка від Joi або іншої бібліотеки валідації",
+        message: `${error.message}`,
       });
     }
 
@@ -28,7 +26,6 @@ const register = async (req, res, next) => {
       subscription,
     });
     res.status(201).json({
-      code: 201,
       data: {
         user: {
           email,

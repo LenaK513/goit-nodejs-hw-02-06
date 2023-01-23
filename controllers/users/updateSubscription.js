@@ -18,9 +18,7 @@ const updateSubscription = async (req, res, next) => {
     if (!user) {
       next(new NotFound(`User with id=${_id} not found`));
     }
-    res.json({
-      status: "success",
-      code: 200,
+    res.status(200).json({
       data: {
         user,
       },

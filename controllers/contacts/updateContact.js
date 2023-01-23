@@ -13,9 +13,7 @@ const updateContact = async (req, res, next) => {
     if (!contact) {
       next(new NotFound(`Product with id=${id} not found`));
     }
-    res.json({
-      status: "success",
-      code: 200,
+    res.status(200).json({
       data: {
         contact,
       },

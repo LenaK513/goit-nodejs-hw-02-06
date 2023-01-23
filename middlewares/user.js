@@ -16,7 +16,7 @@ const user = async (req, res, next) => {
     }
     const { id } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
-    console.log(user);
+
     if (!user || !user.token) {
       throw new Unauthorized("Not authorized");
     }
@@ -29,5 +29,28 @@ const user = async (req, res, next) => {
     next(error);
   }
 };
+
+// const passport = require("passport");
+// const passportJWT = require("passport-jwt");
+
+// const ExtractJWT = passportJWT.ExtractJwt;
+// const Strategy = passportJWT.Strategy;
+// const params = {
+//   secretOrKey: SECRET_KEY,
+//   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+// };
+
+// passport.use(
+//   new Strategy(params, function (payload, done) {
+//     User.find({ _id: payload.id })
+//       .then(([user]) => {
+//         if (!user) {
+//           return done(new Error("User not found"));
+//         }
+//         return done(null, user);
+//       })
+//       .catch((err) => done(err));
+//   })
+// );
 
 module.exports = user;

@@ -16,9 +16,7 @@ const getAll = async (req, res, next) => {
         limit: Number(limit),
       }
     ).populate("owner", "_id email subscription");
-    res.json({
-      status: "success",
-      code: 200,
+    res.status(200).json({
       data: {
         result: contacts,
       },
