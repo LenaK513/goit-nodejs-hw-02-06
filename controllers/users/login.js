@@ -1,10 +1,10 @@
-const { Unauthorized } = require("http-errors");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const { Unauthorized } = require("http-errors");
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
 const { joiUserSchema } = require("../../models/user");
-const { User } = require("../../models");
+// const { User } = require("../../models");
 
-const { SECRET_KEY } = process.env;
+// const { SECRET_KEY } = process.env;
 
 const login = async (req, res, next) => {
   try {
@@ -15,26 +15,26 @@ const login = async (req, res, next) => {
       });
     }
 
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-      next(new Unauthorized("Email or password is wrong"));
-    }
-    const passwordCompare = bcrypt.compareSync(password, user.password);
-    if (!passwordCompare) {
-      next(new Unauthorized("Email or password is wrong"));
-    }
-    const payload = {
-      id: user._id,
-    };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
-    await User.findByIdAndUpdate(user._id, { token });
+    // const { email, password } = req.body;
+    // const user = await User.findOne({ email });
+    // if (!user) {
+    //   next(new Unauthorized("Email or password is wrong"));
+    // }
+    // const passwordCompare = bcrypt.compareSync(password, user.password);
+    // if (!passwordCompare) {
+    //   next(new Unauthorized("Email or password is wrong"));
+    // }
+    // const payload = {
+    //   id: user._id,
+    // };
+    // const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+    // await User.findByIdAndUpdate(user._id, { token });
 
-    res.status(200).json({
-      data: {
-        token,
-      },
-    });
+    // res.status(200).json({
+    //   data: {
+    //     token,
+    //   },
+    // });
   } catch (error) {
     next(error);
   }

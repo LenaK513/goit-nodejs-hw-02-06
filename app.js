@@ -1,7 +1,8 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-
+const passport = require("passport");
+const session = require("express-session");
 require("dotenv").config();
 
 const usersRouter = require("./routes/api/users");
@@ -11,9 +12,20 @@ const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
+app.use(
+  session({
+    secret: "r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 }, // 1 hour
+  })
+);
+
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api/users", usersRouter);
 
