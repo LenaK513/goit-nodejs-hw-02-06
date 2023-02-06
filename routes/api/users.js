@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const { user } = require("../../middlewares");
+const { user, upload } = require("../../middlewares");
 
 const { users: usersController } = require("../../controllers");
 
@@ -15,5 +15,12 @@ router.get("/current", user, usersController.getCurrent);
 router.post("/logout", user, usersController.logout);
 
 router.patch("/subscription", user, usersController.updateSubscription);
+
+router.patch(
+  "/avatars",
+  user,
+  upload.single("avatar"),
+  usersController.updateAvatar
+);
 
 module.exports = router;
