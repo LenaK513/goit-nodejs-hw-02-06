@@ -17,10 +17,7 @@ const updateAvatar = async (req, res, next) => {
     const avatarURL = path.join("public", "avatars", imageName);
     Jimp.read(resultUpload)
       .then((imageAvatar) => {
-        return imageAvatar
-          .resize(250, 250)
-
-          .write(avatarURL);
+        return imageAvatar.resize(250, 250).write(avatarURL);
       })
       .catch((err) => {
         console.error(err);
