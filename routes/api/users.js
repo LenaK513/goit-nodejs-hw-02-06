@@ -10,6 +10,10 @@ router.post("/register", usersController.register);
 
 router.post("/login", usersController.login);
 
+router.get("/verify/:verificationToken", usersController.verifyEmail);
+
+router.post("/verify", usersController.resendVerifyEmail);
+
 router.get("/current", user, usersController.getCurrent);
 
 router.post("/logout", user, usersController.logout);

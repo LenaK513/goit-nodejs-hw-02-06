@@ -24,6 +24,11 @@ const login = async (req, res, next) => {
     if (!passwordCompare) {
       next(new Unauthorized("Email or password is wrong"));
     }
+
+    if (!user.verify) {
+      next(new Unauthorized("Email not verify"));
+    }
+
     const payload = {
       id: user._id,
     };
